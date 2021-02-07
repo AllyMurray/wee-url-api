@@ -5,7 +5,7 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "plugins": ["@typescript-eslint/eslint-plugin", "eslint-plugin-import"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -14,7 +14,8 @@
     "eslint-config-prettier/@typescript-eslint"
   ],
   "rules": {
-    "strict": ["error", "never"]
+    "strict": ["error", "never"],
+    "import/order": "error"
   },
   "env": {
     "node": true,
