@@ -5,8 +5,9 @@
   "main": "dist/lambda.js",
   "type": "module",
   "scripts": {
-    "start": "ts-node-dev --respawn src/index.ts",
-    "init-db": "docker compose up -d && node scripts/initialise-db.js",
+    "start": "docker compose up",
+    "start:api": "ts-node-dev --respawn src/app.local.ts",
+    "init-db": "node scripts/initialise-db.js",
     "build": "tsc",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "check-types": "tsc --noEmit",

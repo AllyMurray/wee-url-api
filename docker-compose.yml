@@ -1,8 +1,18 @@
-version: '2'
+version: '3'
 
 services:
-  dynamodb-example-db:
-    container_name: dynamodb-example-db
+  api:
+    build: .
+    command: npm run start:api
+    ports:
+      - 5000:5000
+    volumes:
+      - ./src:/usr/src/app/src
+      - .env:/usr/src/app/.env
+    depends_on:
+      - dynamodb
+  dynamodb:
+    # container_name: dynamodb
     image: amazon/dynamodb-local
     ports:
       - '8000:8000'
