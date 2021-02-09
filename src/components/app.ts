@@ -1,15 +1,23 @@
+import 'reflect-metadata';
 import * as dotenv from 'dotenv';
 
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
+import { InversifyExpressServer } from 'inversify-express-utils';
+
+import { container } from './inversify.config';
+
+import './url/url.controller';
 
 dotenv.config();
 
-const app = express();
+const server = new InversifyExpressServer(container);
 
-app.use(helmet());
-app.use(cors());
-app.use(express.json());
+server.setConfig((app) => {
+  app.use(helmet());
+  app.use(cors());
+  app.use(express.json());
+});
 
-export default app;
+export default server.build();
