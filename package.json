@@ -36,6 +36,7 @@
     "http-status-codes": "^2.1.4",
     "inversify": "^5.0.5",
     "inversify-express-utils": "^6.3.2",
+    "pino": "^6.11.1",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
     "@types/helmet": "^4.0.0",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.22",
+    "@types/pino": "^6.3.5",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
     "eslint": "^7.18.0",
