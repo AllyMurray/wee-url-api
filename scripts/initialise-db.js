@@ -106,7 +106,7 @@ const getData = async (tableName) => {
 };
 
 (async () => {
-  const tableName = 'wee-url';
+  const tableName = 'url';
   await deleteTable(tableName);
   await createTable(tableName);
   await seedData(tableName);

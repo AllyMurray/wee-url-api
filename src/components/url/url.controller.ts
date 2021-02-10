@@ -32,9 +32,6 @@ export class UrlController implements interfaces.Controller {
     @response() res: Response,
   ): Response {
     return this.urlService.get(id) as Response;
-    // return res.json({
-    //   url: 'https://github.com/inversify/inversify-express-utils',
-    // });
   }
 
   @httpGet('/')

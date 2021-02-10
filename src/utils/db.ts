@@ -6,6 +6,7 @@ import {
   PutItemInputAttributeMap,
   PutItemOutput,
 } from 'aws-sdk/clients/dynamodb';
+import { DataMapper } from '@aws/dynamodb-data-mapper';
 import { logger } from '.';
 
 // console.log(`Setting region to ${process.env.AWS_REGION}`);
@@ -19,46 +20,29 @@ const serviceConfigOptions: ServiceConfigurationOptions = {
 };
 
 const dynamodb = new AWS.DynamoDB(serviceConfigOptions);
+const mapper = new DataMapper({
+  client: dynamodb, // the SDK client used to execute operations
+});
 
-const get = async (tableName: string, key: Key): Promise<GetItemOutput> => {
-  const params = {
-    TableName: tableName,
-    Key: key,
-  };
-
-  let result;
-  try {
-    logger.info(key, `Get item from ${tableName}`);
-    result = await dynamodb.getItem(params).promise();
-    logger.info(result, 'Get successful');
-  } catch (error) {
-    logger.error(`Get failed: ${error.message}`);
-    throw error;
+class DbContext<T> {
+  private type;
+  constructor(type: new () => T) {
+    this.type = type;
   }
 
-  return result;
-};
+  get = async (id: string): Promise<T> => {
+    let result;
+    try {
+      logger.info(`Getting item with id ${id}`);
+      result = (await mapper.get(Object.assign(new this.type(), { id }))) as T;
+      logger.info(result, 'Get successful');
+    } catch (error) {
+      logger.error(`Get failed: ${error.message}`);
+      throw error;
+    }
 
-const insert = async (
-  tableName: string,
-  item: PutItemInputAttributeMap,
-): Promise<PutItemOutput> => {
-  const params = {
-    TableName: tableName,
-    Item: item,
+    return result;
   };
+}
 
-  let result;
-  try {
-    logger.info(`Inserting new item into ${tableName}`);
-    result = await dynamodb.putItem(params).promise();
-    logger.info(result, 'Insert successful');
-  } catch (error) {
-    logger.error(error, 'Insert failed');
-    throw error;
-  }
-
-  return result;
-};
-
-export const db = { get, insert };
+export { DbContext };

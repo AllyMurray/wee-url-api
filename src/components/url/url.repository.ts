@@ -1,10 +1,13 @@
 import { injectable } from 'inversify';
-import { logger, db } from '../../utils';
+import { DbContext } from '../../utils';
+import Url from './url';
+
+const dbContext = new DbContext(Url);
 
 @injectable()
 export class UrlRepository {
   get(id: string): unknown {
-    return db.get('wee-url', { id: { S: id } });
+    return dbContext.get(id);
   }
 }
 
