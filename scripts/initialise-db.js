@@ -22,7 +22,7 @@ const deleteTable = async (tableName) => {
 };
 
 const createTable = async (tableName) => {
-  var params = {
+  const params = {
     TableName: tableName,
     KeySchema: [
       { AttributeName: 'id', KeyType: 'HASH' }, //Partition key
@@ -42,7 +42,7 @@ const createTable = async (tableName) => {
 };
 
 const seedData = async (tableName) => {
-  var params = {
+  const params = {
     RequestItems: {
       [tableName]: [
         {
@@ -83,7 +83,7 @@ const seedData = async (tableName) => {
 };
 
 const getData = async (tableName) => {
-  var params = {
+  const params = {
     RequestItems: {
       [tableName]: {
         Keys: [
