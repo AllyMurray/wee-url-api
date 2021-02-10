@@ -6,7 +6,7 @@ const dbContext = new DbContext(Url);
 
 @injectable()
 export class UrlRepository {
-  get(id: string): unknown {
+  async get(id: string): Promise<Url> {
     return dbContext.get(id);
   }
 }

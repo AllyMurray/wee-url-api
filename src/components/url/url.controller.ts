@@ -12,6 +12,7 @@ import {
   response,
   requestParam,
 } from 'inversify-express-utils';
+import { logger } from '../../utils';
 import UrlService from './url.service';
 
 @controller('/url')
@@ -20,18 +21,18 @@ export class UrlController implements interfaces.Controller {
 
   @httpPost('/')
   private create(@request() req: Request, @response() res: Response): Response {
-    console.log(`Create short url for ${req.body.url}`);
+    logger.info(`Create short url for ${req.body.url}`);
     return res.json({
       url: 'https://github.com/inversify/inversify-express-utils',
     });
   }
 
   @httpGet('/:id')
-  private get(
+  private async get(
     @requestParam('id') id: string,
     @response() res: Response,
-  ): Response {
-    return this.urlService.get(id) as Response;
+  ): Promise<Response> {
+    return res.send(await this.urlService.get(id));
   }
 
   @httpGet('/')
