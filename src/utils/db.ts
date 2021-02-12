@@ -1,16 +1,6 @@
 import AWS from 'aws-sdk';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
-import {
-  GetItemOutput,
-  Key,
-  PutItemInputAttributeMap,
-  PutItemOutput,
-} from 'aws-sdk/clients/dynamodb';
-import { DataMapper } from '@aws/dynamodb-data-mapper';
 import { logger } from '.';
-
-// console.log(`Setting region to ${process.env.AWS_REGION}`);
-// AWS.config.update({ region: process.env.AWS_REGION });
 
 const serviceConfigOptions: ServiceConfigurationOptions = {
   accessKeyId: 'YOURKEY',
@@ -19,23 +9,30 @@ const serviceConfigOptions: ServiceConfigurationOptions = {
   endpoint: process.env.DYNAMODB_ENDPOINT,
 };
 
-const dynamodb = new AWS.DynamoDB(serviceConfigOptions);
-const mapper = new DataMapper({
-  client: dynamodb, // the SDK client used to execute operations
-});
+const documentClient = new AWS.DynamoDB.DocumentClient(serviceConfigOptions);
 
 class DbContext<T> {
-  private type;
-  constructor(type: new () => T) {
-    this.type = type;
+  private tableName: string;
+  constructor(tableName: string) {
+    this.tableName = tableName;
   }
 
-  get = async (id: string): Promise<T> => {
-    let result;
+  get = async (id: string): Promise<T | undefined> => {
+    let result: T | undefined;
     try {
       logger.info(`Getting item with id ${id}`);
-      result = (await mapper.get(Object.assign(new this.type(), { id }))) as T;
-      logger.info(result, 'Get successful');
+      const params = {
+        TableName: this.tableName,
+        Key: { id },
+      };
+      const itemOutput = await documentClient.get(params).promise();
+      if (itemOutput.Item) {
+        logger.info(`Item found for id ${id}`);
+        result = ({ ...itemOutput.Item } as unknown) as T;
+        logger.info(result, 'Get successful');
+      } else {
+        logger.info(`Item not found for id ${id}`);
+      }
     } catch (error) {
       logger.error(`Get failed: ${error.message}`);
       throw error;
