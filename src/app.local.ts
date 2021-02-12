@@ -1,6 +1,5 @@
 import app from './components/app';
-
-const PORT: number = parseInt(process.env.PORT || '5000', 10);
+import { PORT } from './config';
 
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);

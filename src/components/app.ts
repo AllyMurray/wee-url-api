@@ -1,12 +1,8 @@
 import 'reflect-metadata';
-import * as dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import { InversifyExpressServer } from 'inversify-express-utils';
-
-// Ensure the environment variables are loaded before any code is executed
-dotenv.config();
 
 import { container } from './inversify.config';
 
