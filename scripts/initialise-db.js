@@ -1,4 +1,6 @@
 import AWS from 'aws-sdk';
+import { DateTime } from 'luxon';
+
 const { config, DynamoDB } = AWS;
 
 config.update({
@@ -48,26 +50,26 @@ const seedData = async (tableName) => {
         {
           PutRequest: {
             Item: {
-              id: { S: 'V1StGXR8_Z5jdHi6B-myT' },
+              id: { S: 'qIzCxdaAWg' },
               originalUrl: {
                 S:
                   'https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-example-table-read-write-batch.html',
               },
               viewCount: { N: '1' },
-              created: { S: new Date().toISOString() },
+              created: { S: DateTime.utc().toISO() },
             },
           },
         },
         {
           PutRequest: {
             Item: {
-              id: { S: 'R1StKXR8_E5jfPi6B-leZ' },
+              id: { S: 'aWaXTcz6re' },
               originalUrl: {
                 S:
                   'https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.03.html',
               },
               viewCount: { N: '5' },
-              created: { S: new Date().toISOString() },
+              created: { S: DateTime.utc().toISO() },
             },
           },
         },
