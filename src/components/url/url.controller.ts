@@ -20,11 +20,12 @@ export class UrlController implements interfaces.Controller {
   constructor(@inject('UrlService') private urlService: UrlService) {}
 
   @httpPost('/')
-  private create(@request() req: Request, @response() res: Response): Response {
+  private async create(
+    @request() req: Request,
+    @response() res: Response,
+  ): Promise<Response> {
     logger.info(`Create short url for ${req.body.url}`);
-    return res.json({
-      url: 'https://github.com/inversify/inversify-express-utils',
-    });
+    return res.send(await this.urlService.create(req.body.url));
   }
 
   @httpGet('/:id')

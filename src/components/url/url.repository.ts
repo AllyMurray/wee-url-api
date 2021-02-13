@@ -1,13 +1,11 @@
 import { injectable } from 'inversify';
-import { DbContext } from '../../utils';
+import BaseRepository from '../common/base.repository';
 import { Url } from './url.interface';
 
-const dbContext = new DbContext<Url>('url');
-
 @injectable()
-export class UrlRepository {
-  async get(id: string): Promise<Url | undefined> {
-    return dbContext.get(id);
+export class UrlRepository extends BaseRepository<Url> {
+  constructor() {
+    super('url');
   }
 }
 
