@@ -26,7 +26,7 @@ const get = async (
       Key: { id },
     };
     itemOutput = await documentClient.get(params).promise();
-    logger.info(itemOutput, 'Get successful');
+    logger.info({ itemOutput }, 'Get successful');
   } catch (error) {
     logger.error(`Get failed: ${error.message}`);
     throw error;
@@ -41,14 +41,13 @@ const create = async (
 ): Promise<DocumentClient.PutItemOutput> => {
   let itemOutput: DocumentClient.PutItemOutput;
   try {
-    logger.info(item, `Put item in ${tableName}`);
+    logger.info({ item }, `Put item in ${tableName}`);
     const params = {
       TableName: tableName,
       Item: item,
     };
     itemOutput = await documentClient.put(params).promise();
-    logger.info({ itemOutput });
-    logger.info(itemOutput, 'Put successful');
+    logger.info({ itemOutput }, 'Put successful');
   } catch (error) {
     logger.error(`Put failed: ${error.message}`);
     throw error;

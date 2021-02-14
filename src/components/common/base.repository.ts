@@ -17,7 +17,7 @@ export abstract class BaseRepository<T> {
     if (result.Item) {
       logger.info(`Item found for id ${id}`);
       item = ({ ...result.Item } as unknown) as T;
-      logger.info(result, 'Get successful');
+      logger.info({ result }, 'Get successful');
     } else {
       logger.info(`Item not found for id ${id}`);
     }

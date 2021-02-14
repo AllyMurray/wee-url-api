@@ -1,7 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import pino from 'pino';
+import pino, { stdTimeFunctions } from 'pino';
 
-const pinoLog = pino();
+const pinoOptions = {
+  timestamp: stdTimeFunctions.isoTime,
+  formatters: {
+    level(label: string) {
+      return { level: label };
+    },
+  },
+};
+
+const pinoLog = pino(pinoOptions);
 
 class Logger {
   info(message: string): void;
