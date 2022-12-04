@@ -1,2 +1,2 @@
 # wee-url
-A URL shortener built with Next.js and Express.js
+A URL shortener built with Express.js
